@@ -1,6 +1,7 @@
 import streamlit as st
 import time
 from datetime import datetime
+from storage import init_db, save_session, get_sessions
 
 # ===== SETTINGS =====
 with st.sidebar:
@@ -24,6 +25,8 @@ FOCUS_DURATION = focus_minutes * 60
 
 # ===== MAIN PAGE =====
 st.title("PAUSE Timer MVP")
+
+init_db()
 
 # init state
 if "running" not in st.session_state:
@@ -79,15 +82,6 @@ def reset_timer():
     st.session_state.elapsed = 0
     st.session_state.start_time = None
 
-def save_session():
-    st.session_state.sessions.append(
-        {
-            "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "duration": 25,
-            "status": "COMPLETED"
-        }
-    )
-
 # display placeholder
 placeholder = st.empty()
 
@@ -141,6 +135,12 @@ with placeholder.container():
             "status": "COMPLETED"
         })
 
+        save_session(
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            focus_minutes,
+            "COMPLETED"
+        )
+
         st.rerun()
 
     mins = int(remaining) // 60
@@ -193,3 +193,7 @@ with col2:
 # Session History
 st.subheader("Session History")
 st.write(st.session_state.history)
+
+st.subheader("Database Sessions")
+sessions = get_sessions()
+st.write(sessions)
