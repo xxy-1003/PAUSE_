@@ -1,4 +1,4 @@
 import streamlit as st
 
 st.title("PAUSE")
-st.write("Welcome")
+st.write("Welcome to PAUSE")
