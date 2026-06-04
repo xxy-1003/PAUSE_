@@ -4,34 +4,54 @@ import plotly.graph_objects as go
 import plotly.express as px
 from storage import get_sessions
 from datetime import datetime, timedelta
+from styles import *
+
+st.set_page_config(
+    page_title="PAUSE",
+    page_icon="assets/logo.png",
+    layout="wide"
+)
 
 # =========================
 # 🎨 STYLES
 # =========================
 st.title("📊 Analytics")
 
-st.markdown("""
+st.markdown(f"""
 <style>
-.main {
-    background-color: #F9FAFB;
-}
 
-.block-container {
-    padding-top: 2rem;
+/* app background */
+.stApp {{
+    background-color: {BACKGROUND};
+    color: {TEXT};
+}}
+
+/* remove default padding feeling */
+.block-container {{
+    padding-top: 1.5rem;
     padding-bottom: 2rem;
-}
+}}
 
-div[data-testid="metric-container"] {
-    background: white;
-    padding: 12px;
+/* metric card modernize */
+div[data-testid="metric-container"] {{
+    background: {CARD};
+    border: 1px solid #1F2937;
+    padding: 14px;
+    border-radius: 14px;
+}}
+
+/* hide ugly headers spacing */
+h3 {{
+    color: {TEXT};
+    font-weight: 600;
+}}
+
+/* dataframe styling */
+[data-testid="stDataFrame"] {{
     border-radius: 12px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
+    overflow: hidden;
+}}
 
-h3 {
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-}
 </style>
 """, unsafe_allow_html=True)
 
@@ -179,6 +199,7 @@ st.subheader("🧠 Burnout")
 st.caption(
     "Based on your focus and recovery activity over the past 7 days."
 )
+
 col1, col2, col3 = st.columns(3)
 
 with col1:
